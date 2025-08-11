@@ -1,0 +1,29 @@
+{
+  "name": "project-management-tridip",
+  "version": "1.0.0",
+  "description": "a project management application as my 1st big scale project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "keywords": [
+    "project",
+    "management",
+    "first",
+    "big",
+    "scale",
+    "project",
+    "udemy",
+    "course",
+    "backend",
+    "development",
+    "API",
+    "creation"
+  ],
+  "author": "Tridip Karmakar",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}
