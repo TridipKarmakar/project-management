@@ -1,6 +1,6 @@
 import mongoose, { mongo, Schema } from "mongoose";
 import  bcrypt  from "bcrypt";
-import jwt, { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
 const userSchema = new Schema(
@@ -24,7 +24,7 @@ const userSchema = new Schema(
             index: true 
         },
         email: {
-            type: Strig,
+            type: String,
             required: true,
             unique: true,
             lowercase: true,
