@@ -3,6 +3,7 @@ import cors from "cors";
 
 
 const app = express()
+app.set("trust proxy", true);
 
 // basic configarations
 app.use(express.json({limit : "16kb"}))
