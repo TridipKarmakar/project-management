@@ -30,6 +30,17 @@ const userRegisterValidator = () => {
 }
 
 
+const userLoginvalidator = () => {
+return [
+    body("emial").optional()
+    .isEmail()
+    .withMessage("Email is valied"),
+    body("password")
+    .notEmpty()
+    .withMessage("password is required")
+]
+}
+
 export {
-    userRegisterValidator
+    userRegisterValidator,  userLoginvalidator
 }
