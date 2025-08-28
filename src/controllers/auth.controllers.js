@@ -163,6 +163,114 @@ const logoutUser = asyncHandler(async (req,res) => {
     )
 })
 
+
+const getCurrentUser =  asyncHandler(async(res,req) => {
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                req.user,
+                "Current user fetch successfully"
+            )
+        )
+
+})
+
+
+const verifyEmail =  asyncHandler(async(res,req) => {
+    const {verificationToken} = req.params
+
+    if(!verificationToken){
+        throw new ApiError(400, "Email verification token is missing");
+    }
+
+    let hasedToken = crypto
+        .createHash("sha256")
+        .update(verificationToken)
+        .digest("hex")
+
+        const user = await User.findOne({
+            emailverificationToken: hasedToken,
+            emailverificationExpiry: {$gt: Date.now()}
+        })
+
+
+    if(!verificationToken){
+        throw new ApiError(400, "Token is invalid or expired");
+    }
+
+    user.emailverificationToken = undefined
+    user.emailverificationExpiry = undefined
+
+    user.isEmailVerified = true 
+    await user.save({validateBeforeSave: false})
+
+    return res 
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    isEmailVerified: true,
+                },
+                "Email is verified"
+            )
+        )
+})
+
+
+const resendEmailVerification =  asyncHandler(async(res,req) => {
+    const user =  await User.findById(req.user?._id)
+
+    if (!user) {
+        throw new ApiError(404, "User does not exist");
+    }
+
+    if (user.isEmailVerified) {
+        throw new ApiError(404, "Email is already verified");
+    }
+
+    const {unHashedToken, hashedToken, tokenExpiry } = user.generateTemporaryToken()
+
+    user.emailverificationToken = hashedToken 
+    user.emailverificationExpiry = tokenExpiry 
+
+    await user.save({validateBeforeSave: false})
+
+    
+    await sendEmail(
+        {
+            email: user?.email,
+            subject: "Please verify your email",
+            mailgenContent: emailVerificationMailgenContent(
+                user.username,
+                `${process.env.BASE_URL}/api/v1/user/verify-email/${unHashedToken}`
+            )
+        }
+    )
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "Mail has been sent to your email ID"
+            )
+        )
+
+})
+
+// const getCurrentUser =  asyncHandler(async(res,req) => {})
+
+
+
 export {
-    registerUser, login, logoutUser
+    registerUser, 
+    login, 
+    logoutUser, 
+    getCurrentUser, 
+    verifyEmail,
+    resendEmailVerification
 }
