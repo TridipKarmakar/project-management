@@ -351,7 +351,7 @@ const forgotPasswordRequest =  asyncHandler(async(res,req) => {
 })
 
 const resetForgotPassword =  asyncHandler(async(res,req) => {
-    const {refreshToken} = req.params
+    const {resetToekn} = req.params
     const {newPassword} = req.body
     let hashedToken = crypto
         .createHash("sha256")
@@ -403,7 +403,6 @@ const changeCurrentPassword =  asyncHandler(async(res,req) => {
         .json(new ApiResponse(200, {}, "Passwprd change successfully"))
     
 })
-
 
 
 export {
