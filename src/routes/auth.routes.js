@@ -13,7 +13,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router()
 
 //unsecured routes 
-router.route("/rgister").post(userRegisterValidator(),validate,registerUser)
+router.route("/register").post(userRegisterValidator(),validate,registerUser)
 
 router.route("/login").post(userLoginvalidator(),validate,login)
 
@@ -35,6 +35,5 @@ router.route("/current-user").post(verifyJWT, getCurrentUser)
 router.route("/change-password").post(verifyJWT, userChnageCurrentpasswordValidator(),validate,changeCurrentPassword)
 
 router.route("/resend-email-verification").post(verifyJWT, resendEmailVerification)
-
 
 export default router

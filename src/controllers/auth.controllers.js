@@ -17,6 +17,7 @@ const generateAccessAndgenerateRefreshToken = async (userId) => {
 
 
     } catch (error) {
+
         throw new ApiError(500,"Something went wrong wile generating access token");
         
     }
@@ -43,14 +44,13 @@ const registerUser = asyncHandler(async (req,res)=>{
 
 
 
-    const {unHashedToken, hashedToken, tokenExpiry } = user.generateTemporaryToken()
+    const { unHashedToken, hashedToken, tokenExpiry } = user.generateTemporaryToken()
 
     user.emailverificationToken = hashedToken 
     user.emailverificationExpiry = tokenExpiry 
 
     await user.save({validateBeforeSave: false})
 
-    
     await sendEmail(
         {
             email: user?.email,
@@ -83,7 +83,6 @@ const registerUser = asyncHandler(async (req,res)=>{
             "User registered successfully and verification email has been sent on your email."
         )
     )
-
 })
 
 const login = asyncHandler(async (req,res) => {
@@ -105,7 +104,7 @@ const login = asyncHandler(async (req,res) => {
     }
     
 
-    const {accessToken, refreshToken}= await generateAccessAndgenerateRefreshToken(user._id)
+    const { accessToken, refreshToken } = await generateAccessAndgenerateRefreshToken(user._id)
 
     const loggedInUser = await User.findById(user._id).select(
         "-password -refreshToken -emailverificationToken -emailverificationExpiry"
@@ -130,9 +129,6 @@ const login = asyncHandler(async (req,res) => {
                 },
                 "User logged in successfully"
             ))
-
-
-
 })
 
 const logoutUser = asyncHandler(async (req,res) => {
@@ -310,7 +306,7 @@ const refreshAccessToken =  asyncHandler(async(res,req) => {
 
 const forgotPasswordRequest =  asyncHandler(async(res,req) => {
     const {email} = req.body
-    
+
     const user = await User.findOne({email})
 
     if(!user){
@@ -323,7 +319,6 @@ const forgotPasswordRequest =  asyncHandler(async(res,req) => {
     user.forgotPasswordExpiry = tokenExpiry
 
     await user.save({validatebeforeSave: false})
-
    
     await sendEmail(
         {
@@ -332,7 +327,6 @@ const forgotPasswordRequest =  asyncHandler(async(res,req) => {
             mailgenContent: forgotPasswordMailgenContent(
                 user.username,
                 `${process.env.FORGOT_PASSWORD_REDIRECT_URLL}/${unHashedToken}`,
-
             )
         }
     )
@@ -343,11 +337,9 @@ const forgotPasswordRequest =  asyncHandler(async(res,req) => {
         new ApiResponse(
             200,
             {},
-                "Password reset mail has been sent on your mail id"
-            
+                "Password reset mail has been sent on your mail id"       
         )
-    )
-    
+    )    
 })
 
 const resetForgotPassword =  asyncHandler(async(res,req) => {
@@ -389,7 +381,7 @@ const changeCurrentPassword =  asyncHandler(async(res,req) => {
     const {oldPassword, newPassword} = req.body
 
     const user = await User.findByid(req.user?._id)
-    
+
     const isPassswordValid = await user.isPasswordCorrect(oldPassword)
 
     if(!isPassswordValid){

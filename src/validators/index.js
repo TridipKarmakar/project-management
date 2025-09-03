@@ -29,7 +29,6 @@ const userRegisterValidator = () => {
 
 }
 
-
 const userLoginvalidator = () => {
 return [
     body("emial").optional()
@@ -46,10 +45,9 @@ const userChnageCurrentpasswordValidator = () => {
         body("oldPassword")
             .notEmpty()
             .withMessage("Old password is required"),
-            body("newPassword")
-             .notEmpty()
-            .withMessage("New password is required"),
-            
+        body("newPassword")
+            .notEmpty()
+            .withMessage("New password is required"),    
     ]
 }
 

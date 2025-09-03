@@ -56,10 +56,11 @@ const emailVerificationMailgenContent = (username, verficationUrl) => {
                     link: verficationUrl
                 }
             },
-            outro: "Need hel, or have questions? Just reply to this mail, we'd love to help."
+            outro: "Need help, or have questions? Just reply to this mail, we'd love to help."
         }
     }
 }
+
 const forgotPasswordMailgenContent = (username, passwordResetUrl) => {
     return {
         body: {
@@ -79,4 +80,4 @@ const forgotPasswordMailgenContent = (username, passwordResetUrl) => {
 
 }
 
-export { emailVerificationMailgenContent, forgotPasswordMailgenContent,sendEmail }
+export { emailVerificationMailgenContent, forgotPasswordMailgenContent, sendEmail }
