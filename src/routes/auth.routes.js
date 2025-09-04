@@ -30,9 +30,9 @@ router.route("/reset-password/:resetToekn").post(userResetForgotPasswordValidato
 //secure routes
 router.route("/logout").post(verifyJWT, logoutUser) // verified routes
 
-router.route("/current-user").post(verifyJWT, getCurrentUser)
+router.route("/current-user").post(verifyJWT, getCurrentUser) // verified routes
 
-router.route("/change-password").post(verifyJWT, userChnageCurrentpasswordValidator(),validate,changeCurrentPassword)
+router.route("/change-password").post(verifyJWT, userChnageCurrentpasswordValidator(),validate,changeCurrentPassword) // verified routes
 
 router.route("/resend-email-verification").post(verifyJWT, resendEmailVerification)
 
