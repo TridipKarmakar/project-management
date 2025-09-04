@@ -13,11 +13,11 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router()
 
 //unsecured routes 
-router.route("/register").post(userRegisterValidator(),validate,registerUser)
+router.route("/register").post(userRegisterValidator(),validate,registerUser) // verified routes
 
-router.route("/login").post(userLoginvalidator(),validate,login)
+router.route("/login").post(userLoginvalidator(),validate,login) // verified routes
 
-router.route("/verify-email/:verificationToken").get(verifyEmail)
+router.route("/verify-email/:verificationToken").get(verifyEmail) 
 
 router.route("/refresh-token").post(refreshAccessToken)
 
@@ -28,7 +28,7 @@ router.route("/reset-password/:resetToekn").post(userResetForgotPasswordValidato
 
 
 //secure routes
-router.route("/logout").post(verifyJWT, logoutUser)
+router.route("/logout").post(verifyJWT, logoutUser) // verified routes
 
 router.route("/current-user").post(verifyJWT, getCurrentUser)
 

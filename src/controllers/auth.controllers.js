@@ -159,7 +159,7 @@ const logoutUser = asyncHandler(async (req,res) => {
     )
 })
 
-const getCurrentUser =  asyncHandler(async(res,req) => {
+const getCurrentUser =  asyncHandler(async(req,res) => {
     return res
         .status(200)
         .json(
