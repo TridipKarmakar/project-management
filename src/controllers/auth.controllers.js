@@ -4,6 +4,7 @@ import { ApiError } from "../utiles/api-error.js"
 import { asyncHandler } from "../utiles/async-handler.js"
 import { emailVerificationMailgenContent, forgotPasswordMailgenContent, sendEmail } from "../utiles/mail.js";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 const generateAccessAndgenerateRefreshToken = async (userId) => {
     try {
@@ -172,27 +173,36 @@ const getCurrentUser =  asyncHandler(async(req,res) => {
 
 })
 
-const verifyEmail =  asyncHandler(async(res,req) => {
+const verifyEmail =  asyncHandler(async(req, res) => {
     const {verificationToken} = req.params
 
     if(!verificationToken){
         throw new ApiError(400, "Email verification token is missing");
     }
 
+
+
+
     let hasedToken = crypto
         .createHash("sha256")
         .update(verificationToken)
         .digest("hex")
 
-        const user = await User.findOne({
+        const user = await User.findOne({     // If we used here hased token to find the user, but we store unhased token in the email verfication need to understand this process
             emailverificationToken: hasedToken,
             emailverificationExpiry: {$gt: Date.now()}
         })
 
 
+    if(!user){
+            throw new ApiError(400, "user does not exist due to invalid token");
+        }
+
+
     if(!verificationToken){
         throw new ApiError(400, "Token is invalid or expired");
     }
+
 
     user.emailverificationToken = undefined
     user.emailverificationExpiry = undefined
