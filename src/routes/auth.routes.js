@@ -19,9 +19,9 @@ router.route("/login").post(userLoginvalidator(),validate,login) // verified rou
 
 router.route("/verify-email/:verificationToken").get(verifyEmail) 
 
-router.route("/refresh-token").post(refreshAccessToken)
+router.route("/refresh-token").post(refreshAccessToken) // verified routes
 
-router.route("/forgot-password").post(userForgotPasswordRequestValidator(),validate,forgotPasswordRequest)
+router.route("/forgot-password").post(userForgotPasswordRequestValidator(),validate,forgotPasswordRequest) 
 
 router.route("/reset-password/:resetToekn").post(userResetForgotPasswordValidator(),validate,resetForgotPassword)
 

@@ -255,7 +255,7 @@ const resendEmailVerification =  asyncHandler(async(res,req) => {
 
 })
 
-const refreshAccessToken =  asyncHandler(async(res,req) => {
+const refreshAccessToken =  asyncHandler(async(req,res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
     if (!incomingRefreshToken) {
@@ -278,7 +278,7 @@ const refreshAccessToken =  asyncHandler(async(res,req) => {
             secure: true
         }
 
-        const {accessToken, refreshToken: newRefreshToken } = await generateAccessAndgenerateRefreshToken(user.i_d)
+        const { accessToken, refreshToken: newRefreshToken } = await generateAccessAndgenerateRefreshToken(user._id)
 
         user.refreshToken = newRefreshToken
         await user.save()
@@ -295,16 +295,14 @@ const refreshAccessToken =  asyncHandler(async(res,req) => {
                 )
             )
 
-
-
-
     } catch (error) {
             throw new ApiError(401,"Invalid refresh token");
     }
 
 })
 
-const forgotPasswordRequest =  asyncHandler(async(res,req) => {
+
+const forgotPasswordRequest =  asyncHandler(async(req, res) => {
     const {email} = req.body
 
     const user = await User.findOne({email})
