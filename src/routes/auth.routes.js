@@ -21,7 +21,7 @@ router.route("/verify-email/:verificationToken").get(verifyEmail)
 
 router.route("/refresh-token").post(refreshAccessToken) // verified routes
 
-router.route("/forgot-password").post(userForgotPasswordRequestValidator(),validate,forgotPasswordRequest) 
+router.route("/forgot-password").post(userForgotPasswordRequestValidator(),validate,forgotPasswordRequest) // verified routes
 
 router.route("/reset-password/:resetToekn").post(userResetForgotPasswordValidator(),validate,resetForgotPassword)
 
@@ -34,6 +34,6 @@ router.route("/current-user").post(verifyJWT, getCurrentUser) // verified routes
 
 router.route("/change-password").post(verifyJWT, userChnageCurrentpasswordValidator(),validate,changeCurrentPassword) // verified routes
 
-router.route("/resend-email-verification").post(verifyJWT, resendEmailVerification)
+router.route("/resend-email-verification").post(verifyJWT, resendEmailVerification) // verified routes
 
 export default router
